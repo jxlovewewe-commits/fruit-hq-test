@@ -1,49 +1,90 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>과일 본부·대리점 관리 (테스트 버전)</title>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff"><title>과일 본부 관리</title>
 <style>
-body{font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;margin:0;background:#f6f7f5;color:#222}
-.w{max-width:760px;margin:auto;padding:16px}
-h1{font-size:21px;margin:8px 0 4px}p.s{color:#666;margin:0 0 12px;font-size:13px}
-.note{background:#fff6cf;color:#6b5400;border-radius:8px;padding:8px 10px;font-size:13px;margin-bottom:12px}
-.tabs{display:flex;gap:6px;margin-bottom:12px}
-.tabs button{flex:1;font-size:16px;font-weight:700;padding:11px;border:1px solid #cfd8cf;background:#fff;border-radius:10px;color:#555}
-.tabs button.on{background:#2f6b3f;color:#fff;border-color:#2f6b3f}
-.card{background:#fff;border-radius:12px;padding:14px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-h2{font-size:16px;margin:0 0 10px}h2 small{font-weight:400}
-label{font-size:13px;color:#555;display:block}
-input,select{box-sizing:border-box;font-size:15px;padding:7px 8px;border:1px solid #ccc;border-radius:8px;background:#fff}
-.full{width:100%}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:8px}
-.row>label{flex:1;min-width:110px}.row>label input,.row>label select{width:100%;margin-top:3px}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{padding:8px 4px;border-bottom:1px solid #eee;text-align:right;vertical-align:middle}
-th:first-child,td:first-child{text-align:left}th{color:#666;font-weight:600;font-size:12px;white-space:nowrap}
-td .nm{display:block;font-size:11px;color:#777}
-.gift{color:#b0405a}
-button{font-size:14px;padding:7px 10px;border:1px solid #ccc;background:#fafafa;border-radius:8px;cursor:pointer}
-button.pri{background:#2f6b3f;color:#fff;border-color:#2f6b3f;font-weight:700}
-button.sm{font-size:12px;padding:5px 7px}
-button.warn{color:#c0392b;border-color:#e3b4ae}
-.btns button{margin:4px 4px 0 0}
-input.n{width:64px;text-align:right}input.pr{width:86px;text-align:right}
-.st{display:inline-block;font-size:12px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap}
-.st-접수{background:#e8f0fe;color:#1a56b0}.st-승인{background:#fff1d6;color:#9a5b00}.st-출고완료{background:#e3f4e7;color:#1a7f37}.st-취소{background:#eee;color:#888}
-.st-미정산{background:#fdeaea;color:#c0392b}.st-정산완료{background:#e3f4e7;color:#1a7f37}
-.tag{font-size:11px;color:#9a5b00;background:#fff1d6;border-radius:6px;padding:1px 6px;font-weight:600}
-.sum{font-size:15px;margin:8px 0}.sum b{color:#1d5c30;font-size:18px}
-.low{color:#c0392b;font-weight:700}
-.ol{font-size:12px;color:#555;line-height:1.5}
-.empty{color:#999;font-size:13px;padding:8px 0}
-#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;display:none;max-width:90%;z-index:9}
+:root{--o:#f08a24;--od:#d9730d;--ol:#fff4e8;--bg:#f4f5f7;--tx:#1f2328;--mu:#6b7280;--ln:#eceef1;--in:#dfe3e8}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;font-size:15px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+.top{background:#fff;border-bottom:1px solid var(--ln);position:sticky;top:0;z-index:5}
+.top .in{max-width:560px;margin:auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{font-size:19px;font-weight:800;letter-spacing:-.3px}.logo em{font-style:normal;color:var(--o)}
+.top .sub{font-size:12px;color:var(--mu);text-align:right}
+.wrap{max-width:560px;margin:auto;padding:14px 14px 100px}
+.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 1px 2px rgba(16,24,40,.06)}
+.ct{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 12px;font-size:16px;font-weight:700}
+.ct small{font-size:12px;color:var(--mu);font-weight:500}
+.ct a{font-size:13px;color:var(--od);text-decoration:none;font-weight:600}
+.pg{font-size:20px;font-weight:800;margin:4px 2px 12px;letter-spacing:-.3px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.kpi{background:#fff;border-radius:16px;padding:14px;box-shadow:0 1px 2px rgba(16,24,40,.06)}
+.kpi .l{font-size:12px;color:var(--mu);font-weight:600}.kpi .v{font-size:22px;font-weight:800;margin-top:4px;letter-spacing:-.4px}
+.kpi .v small{font-size:13px;font-weight:600;margin-left:1px}
+.kpi.hl{background:linear-gradient(135deg,#ffb04a,#f08a24);color:#fff}.kpi.hl .l{color:#fff;opacity:.9}
+.kpi.warn .v{color:#c62828}
+.b{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.b-접수{background:#eef0f3;color:#4b5563}.b-승인{background:#e7efff;color:#1d4ed8}.b-출고완료{background:#e4f5ea;color:#15803d}.b-취소{background:#fdecec;color:#c62828}
+.b-미정산{background:var(--ol);color:#c2570c}.b-정산완료{background:#e4f5ea;color:#15803d}
+.ex{font-size:11px;font-weight:600;color:#9a6a2f;background:#fbf1e3;border-radius:6px;padding:2px 7px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:46px;padding:10px 16px;border-radius:12px;font:inherit;font-size:15px;font-weight:700;border:1px solid var(--in);background:#fff;color:var(--tx);cursor:pointer;text-decoration:none}
+.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--o);border-color:var(--o);color:#fff}.btn.pri:disabled{background:#f6c08c;border-color:#f6c08c}
+.btn.soft{background:var(--ol);border-color:var(--ol);color:var(--od)}
+.btn.danger{color:#c62828;border-color:#f3cccc}
+.btn.sm{min-height:38px;padding:6px 12px;font-size:14px;border-radius:10px}
+.btn.blk{width:100%}
+.acts{display:flex;gap:8px;margin-top:12px}.acts .btn{flex:1}
+.btns{display:flex;flex-wrap:wrap;gap:8px}.btns .btn{flex:1 1 140px}
+.fld{display:block;margin-bottom:10px}.fld span{display:block;font-size:13px;color:var(--mu);font-weight:600;margin-bottom:5px}
+input,select{font:inherit;font-size:16px;width:100%;min-height:46px;padding:8px 12px;border:1px solid var(--in);border-radius:12px;background:#fff;color:var(--tx)}
+input:focus,select:focus{outline:2px solid rgba(240,138,36,.35);border-color:var(--o)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.oc{display:block;border:1px solid var(--ln);border-radius:14px;padding:13px 14px;margin-bottom:10px;background:#fff}
+.oc:last-child{margin-bottom:0}
+.oc-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.oc-h .no{color:var(--mu);font-size:13px;font-weight:600;margin-right:4px}
+.ol div{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#4b5563;padding:2px 0}.ol b{white-space:nowrap;color:var(--tx)}
+.oc-f{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln);font-size:12px;color:var(--mu)}
+.oc-f b{font-size:17px;color:var(--tx)}
+.oc.sel{cursor:pointer}.oc.sel.on{border-color:var(--o);box-shadow:0 0 0 2px rgba(240,138,36,.18)}
+.oc.sel input{width:22px;min-height:22px;height:22px;accent-color:var(--o);margin:0 8px 0 0;vertical-align:middle}
+.li{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--ln)}.li:last-child{border-bottom:0}.li>.f{flex:1;min-width:0}
+.nmb .t{font-weight:700;font-size:15px}.nmb .s{font-size:13px;color:var(--mu);margin-top:2px}.nmb .id{font-size:11px;color:#9aa1a9}
+.tg{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:6px;background:#eef0f3;color:#4b5563;margin-right:3px}.tg.gift{background:#fde8ef;color:#b0405a}
+.qty{font-size:20px;font-weight:800;white-space:nowrap}.qty small{font-size:12px;color:var(--mu);font-weight:600}.qty.low{color:#c62828}
+.stk{display:grid;grid-template-columns:1fr auto auto;gap:8px;margin-top:8px}
+.stk input{text-align:right}
+.price{font-weight:800;white-space:nowrap}
+.seg{display:flex;background:#e9ebee;border-radius:12px;padding:4px;margin-bottom:12px}
+.seg a{flex:1;text-align:center;padding:9px 0;border-radius:9px;font-size:14px;font-weight:700;color:var(--mu);text-decoration:none}
+.seg a.on{background:#fff;color:var(--tx);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--ln);z-index:6;padding-bottom:env(safe-area-inset-bottom)}
+.nav .in{max-width:560px;margin:auto;display:flex}
+.nav a{flex:1;text-align:center;padding:7px 0 9px;font-size:11px;font-weight:600;color:#8b929a;text-decoration:none}
+.nav a i{display:block;font-style:normal;font-size:20px;line-height:26px;filter:grayscale(1);opacity:.7}
+.nav a.on{color:var(--od)}.nav a.on i{filter:none;opacity:1}
+.ic{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--ln);border-radius:14px;margin-bottom:10px}
+.ic.on{border-color:var(--o);background:#fffaf4}
+.ic .f{flex:1;min-width:0}.ic .p{font-size:16px;font-weight:800;margin-top:4px}
+.stp{display:flex;align-items:center;border:1px solid var(--in);border-radius:12px;overflow:hidden;background:#fff;flex:none}
+.stp button{width:40px;height:42px;border:0;background:#fff;font-size:22px;font-weight:600;color:var(--od);cursor:pointer;padding:0}
+.stp input{width:42px;min-height:42px;border:0;border-radius:0;text-align:center;padding:0;font-weight:700}
+.stp input:focus{outline:none}
+.obar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--ln);z-index:6;padding-bottom:env(safe-area-inset-bottom)}
+.obar .in{max-width:560px;margin:auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.obar .t{flex:1}.obar .t small{display:block;font-size:12px;color:var(--mu);font-weight:600}.obar .t b{font-size:21px;letter-spacing:-.4px}
+.obar .btn{min-width:150px;min-height:50px;font-size:16px}
+.empty{color:#9aa1a9;font-size:14px;text-align:center;padding:18px 0}
+.hint{font-size:12px;color:var(--mu);margin-top:10px}
+.sumrow{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0}.sumrow b{font-size:18px}
+.foot{text-align:center;font-size:11px;color:#a3a9b0;margin:18px 0 6px}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:rgba(31,35,40,.94);color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;display:none;width:max-content;max-width:88%;z-index:9;text-align:center}
 .hide{display:none!important}
-@media(max-width:520px){.w{padding:10px}.card{padding:11px}table{font-size:13px}th,td{padding:7px 3px}.hm{display:none}}
-</style></head><body><div class="w">
-<h1>🥭 과일 본부·대리점 관리</h1>
-<div class="note">🧪 <b>테스트 버전</b> · 데이터는 이 브라우저에만 저장됩니다</div>
-<div class="tabs"><button id="tab-hq" data-view="hq">본부</button><button id="tab-dealer" data-view="dealer">대리점</button></div>
-<div id="hq"></div><div id="dealer"></div>
-<p class="s">로그인 없는 테스트용 화면입니다. 다른 기기·브라우저와 데이터가 공유되지 않습니다.</p>
-</div><div id="toast"></div>
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}input[type=number]{-moz-appearance:textfield}
+</style></head><body>
+<header class="top"><div class="in"><div class="logo" id="brand">🥭 과일 관리</div><div class="sub" id="brandsub"></div></div></header>
+<main class="wrap" id="app"></main>
+<nav id="bar" class="hide"></nav>
+<div id="toast" role="status"></div>
 <script id="core">
 // ===== 데이터·업무 로직 (화면과 분리) =====
 var KEY='fruitHqTest.v2',OLD_KEYS=['fruitHqTest.v1'],SCHEMA='fruit-items/1';
@@ -162,121 +203,175 @@ function save(storage,st){storage.setItem(KEY,JSON.stringify(st));}
 if(typeof module!=='undefined')module.exports={sample:sample,defaultItems:defaultItems,placeOrder:placeOrder,approveOrder:approveOrder,cancelOrder:cancelOrder,createShipment:createShipment,receiveStock:receiveStock,setStock:setStock,settlement:settlement,toggleSettled:toggleSettled,addDealer:addDealer,removeDealer:removeDealer,load:load,save:save,orderTotal:orderTotal,item:item,order:order,stockOf:stockOf,itemLabel:itemLabel,upsertItem:upsertItem,removeItem:removeItem,itemOrderCount:itemOrderCount,itemsFile:itemsFile,mergeItems:mergeItems,KEY:KEY};
 </script>
 <script>
-// ===== 화면 =====
+// ===== 화면 (본부: 기본 주소 / 대리점: ?view=dealer) =====
 var S=load(localStorage);
 var params=new URLSearchParams(location.search);
 var view=params.get('view')==='dealer'?'dealer':'hq';
-var me=params.get('dealer')||localStorage.getItem(KEY+'.me')||'';
-var F={od:'',os:'',sd:'',sf:'',stt:'',sst:''},EDIT='';
+var me=params.get('d')||params.get('dealer')||localStorage.getItem(KEY+'.me')||'';
+var F={od:'',os:'',sd:'',sf:'',stt:'',sst:''},EDIT='',CART={};
+var HQ_TABS=[['home','홈','🏠'],['orders','주문','🧾'],['ship','출고','🚚'],['settle','정산','💰'],['stock','품목·재고','📦'],['settings','설정','⚙️']];
+var HQ_PAGES=['home','orders','ship','settle','stock','items','settings'],DL_PAGES=['order','mine','settle'];
+var HQ_ACTIONS=['in','adj','approve','cancel','ship','selall','settle','edititem','canceledit','saveitem','delitem','calcitems','itemsexport','itemsimport','adddealer','deldealer','copylink','export','import','reset'];
+function page(){var h=location.hash.slice(1),L=view==='hq'?HQ_PAGES:DL_PAGES;return L.indexOf(h)>=0?h:L[0];}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function won(n){return Number(n||0).toLocaleString('ko-KR')+'원';}
 function $(id){return document.getElementById(id);}
-function toast(m){var t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.display='none';},3500);}
+function toast(m){var t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.display='none';},3200);}
 function act(fn,msg){try{var r=fn();save(localStorage,S);render();if(r||msg)toast(r||msg);}catch(e){toast('⚠️ '+e.message);}}
-function st(s){return '<span class="st st-'+esc(s)+'">'+esc(s)+'</span>';}
-function nameCell(it){return '<span class="'+(it.type==='선물'?'gift':'')+'"><b>'+esc(it.type)+' '+esc(it.count)+'과</b> <span class="nm" style="display:inline">('+esc(fmtKg(it.kg))+')</span></span><span class="nm">'+esc(it.country+' '+it.variety+' '+it.name)+'</span>';}
-function lines(o){return '<div class="ol">'+o.lines.map(function(l){return esc(l.label)+' × '+esc(l.qty);}).join('<br>')+'</div>';}
+function badge(s){return '<span class="b b-'+esc(s)+'">'+esc(s)+'</span>';}
+function sbadge(o){return badge(o.settled?'정산완료':'미정산');}
+function nameBlock(it,withId){return '<div class="nmb"><div class="t">'+esc(it.country+' '+it.variety+' '+it.name)+'</div><div class="s"><span class="tg'+(it.type==='선물'?' gift':'')+'">'+esc(it.type)+'</span> '+esc(it.count)+'과 ('+esc(fmtKg(it.kg))+')</div>'+(withId?'<div class="id">id: '+esc(it.id)+'</div>':'')+'</div>';}
+function lineList(o){return '<div class="ol">'+o.lines.map(function(l){return '<div><span>'+esc(l.label)+'</span><b>× '+esc(l.qty)+'</b></div>';}).join('')+'</div>';}
+function orderCard(o,extra,opt){opt=opt||{};
+  return '<div class="oc"><div class="oc-h"><div><span class="no">#'+esc(o.no)+'</span>'+(opt.noDealer?'':'<b>'+esc(o.dealerName)+'</b>')+'</div>'+(opt.settle?sbadge(o):badge(o.status))+'</div>'+lineList(o)+
+  '<div class="oc-f"><span>'+esc(opt.settle?('출고 '+o.shipDate):o.date)+(o.shipNo&&!opt.settle?' · 출고 #'+esc(o.shipNo):'')+'</span><b>'+won(orderTotal(o))+'</b></div>'+(extra||'')+'</div>';}
 function dealerOpts(sel,all){return (all?'<option value="">'+all+'</option>':'')+S.dealers.map(function(d){return '<option value="'+esc(d.id)+'"'+(d.id===sel?' selected':'')+'>'+esc(d.name)+'</option>';}).join('');}
-function sampleTag(){return S.sample?' <span class="tag">예시 데이터</span>':'';}
+function kpi(l,v,cls){return '<div class="kpi '+(cls||'')+'"><div class="l">'+l+'</div><div class="v">'+v+'</div></div>';}
+function wonKpi(n){return Number(n||0).toLocaleString('ko-KR')+'<small>원</small>';}
+function dealerLink(id){var u=location.origin+location.pathname+'?view=dealer';return id?u+'&d='+encodeURIComponent(id):u;}
+function copyLink(u){var ok=function(){toast('링크를 복사했습니다');},no=function(){window.prompt('아래 링크를 복사해 주세요',u);};
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(u).then(ok,no);else no();}
+function foot(){return '<div class="foot">테스트 버전 · 데이터는 이 브라우저에만 저장됩니다</div>';}
+function lowItems(){return S.items.filter(function(it){return stockOf(S,it.id)<5;});}
 
-function renderHQ(){
-  var h='';
-  // 재고
-  h+='<div class="card"><h2>📦 재고 현황'+sampleTag()+'</h2><table><thead><tr><th>품목</th><th>재고</th><th>수량 입력</th><th></th></tr></thead><tbody>';
-  S.items.forEach(function(it){h+='<tr><td>'+nameCell(it)+'</td><td class="'+(stockOf(S,it.id)<5?'low':'')+'"><b>'+esc(stockOf(S,it.id))+'</b>개</td><td><input class="n" type="number" inputmode="numeric" min="0" id="q-'+esc(it.id)+'" placeholder="0"></td><td><button class="sm" data-a="in" data-id="'+esc(it.id)+'">입고 +</button> <button class="sm" data-a="adj" data-id="'+esc(it.id)+'">조정</button></td></tr>';});
-  h+='</tbody></table><small>입고 +: 입력한 수량만큼 더합니다 · 조정: 실제 재고 수량으로 바꿉니다 · 출고하면 자동 차감 · 5개 미만은 빨간색</small></div>';
-  // 주문 목록
-  var os=S.orders.filter(function(o){return (!F.od||o.dealerId===F.od)&&(!F.os||o.status===F.os);}).slice().reverse();
-  h+='<div class="card"><h2>🧾 대리점 주문 목록</h2><div class="row"><label>대리점<select id="f-od">'+dealerOpts(F.od,'전체 대리점')+'</select></label><label>상태<select id="f-os"><option value="">전체 상태</option>'+STATUS.map(function(s){return '<option'+(s===F.os?' selected':'')+'>'+s+'</option>';}).join('')+'</select></label></div>';
-  h+=os.length?'<table><thead><tr><th>번호·날짜</th><th style="text-align:left">대리점·품목</th><th>금액</th><th>상태</th></tr></thead><tbody>'+os.map(function(o){
-    var b=o.status==='접수'?'<br><button class="sm pri" data-a="approve" data-id="'+esc(o.id)+'">승인</button> <button class="sm warn" data-a="cancel" data-id="'+esc(o.id)+'">취소</button>':o.status==='승인'?'<br><button class="sm warn" data-a="cancel" data-id="'+esc(o.id)+'">취소</button>':'';
-    return '<tr><td>#'+esc(o.no)+'<span class="nm">'+esc(o.date)+'</span></td><td style="text-align:left"><b>'+esc(o.dealerName)+'</b>'+lines(o)+'</td><td style="white-space:nowrap">'+won(orderTotal(o))+'</td><td>'+st(o.status)+b+'</td></tr>';}).join('')+'</tbody></table>':'<div class="empty">조건에 맞는 주문이 없습니다.</div>';
-  h+='<small>상태 흐름: 접수 → 승인 → 출고완료 (출고 전에는 취소 가능)</small></div>';
-  // 출고 지시
-  var ap=S.orders.filter(function(o){return o.status==='승인';});
-  h+='<div class="card"><h2>🚚 출고 지시 생성</h2>';
-  h+=ap.length?'<table><tbody>'+ap.map(function(o){return '<tr><td style="width:30px"><input type="checkbox" class="shp" value="'+esc(o.id)+'" style="width:20px;height:20px"></td><td style="text-align:left">#'+esc(o.no)+' <b>'+esc(o.dealerName)+'</b>'+lines(o)+'</td><td style="white-space:nowrap">'+won(orderTotal(o))+'</td></tr>';}).join('')+'</tbody></table><div class="btns"><button class="pri" data-a="ship">선택한 주문 출고 지시</button></div>':'<div class="empty">출고 대기 중인 승인 주문이 없습니다. 주문 목록에서 먼저 승인해 주세요.</div>';
-  h+='<h2 style="margin-top:14px">출고 지시 목록</h2>';
-  h+=S.shipments.length?'<table><thead><tr><th>번호·날짜</th><th style="text-align:left">대리점</th><th style="text-align:left">품목 × 수량</th></tr></thead><tbody>'+S.shipments.slice().reverse().map(function(s){return '<tr><td>출고 #'+esc(s.no)+'<span class="nm">'+esc(s.date)+' · 주문 #'+esc(s.orderNo)+'</span></td><td style="text-align:left">'+esc(s.dealerName)+'</td><td style="text-align:left">'+lines(s)+'</td></tr>';}).join('')+'</tbody></table>':'<div class="empty">아직 출고 지시가 없습니다.</div>';
-  h+='<small>재고가 부족하면 출고 지시가 막히고 부족한 품목을 알려 드립니다.</small></div>';
-  // 정산
-  var r=settlement(S,{dealerId:F.sd,from:F.sf,to:F.stt,state:F.sst});
-  h+='<div class="card"><h2>💰 정산 내역 <small>(출고완료 주문 기준)</small></h2><div class="row"><label>대리점<select id="f-sd">'+dealerOpts(F.sd,'전체 대리점')+'</select></label><label>정산 상태<select id="f-sst"><option value="">전체</option><option'+(F.sst==='미정산'?' selected':'')+'>미정산</option><option'+(F.sst==='정산완료'?' selected':'')+'>정산완료</option></select></label></div><div class="row"><label>출고일 시작<input type="date" id="f-sf" value="'+esc(F.sf)+'"></label><label>출고일 끝<input type="date" id="f-stt" value="'+esc(F.stt)+'"></label></div>';
-  h+='<div class="sum">합계 <b>'+won(r.total)+'</b> · 미정산 <span class="low">'+won(r.unpaid)+'</span></div>';
+// ---------- 본부 ----------
+function hqHome(){
+  var t=today(),pend=S.orders.filter(function(o){return o.status==='접수';}),low=lowItems(),un=settlement(S).unpaid,h='';
+  h+='<div class="pg">안녕하세요, 본부님 👋 '+(S.sample?'<span class="ex">예시 데이터</span>':'')+'</div>';
+  h+='<div class="kpis">'+kpi('오늘 주문',S.orders.filter(function(o){return o.date===t;}).length+'<small>건</small>','hl')+kpi('승인 대기',pend.length+'<small>건</small>')+kpi('재고 부족 품목',low.length+'<small>개</small>',low.length?'warn':'')+kpi('미정산 금액',wonKpi(un))+'</div>';
+  h+='<div class="card"><div class="ct">승인 대기 주문 <a href="#orders">전체 보기 ›</a></div>'+(pend.length?pend.slice().reverse().slice(0,3).map(function(o){return orderCard(o,'<div class="acts"><button class="btn pri sm" data-a="approve" data-id="'+esc(o.id)+'">승인</button><button class="btn danger sm" data-a="cancel" data-id="'+esc(o.id)+'">취소</button></div>');}).join(''):'<div class="empty">승인 대기 중인 주문이 없습니다</div>')+'</div>';
+  var ap=S.orders.filter(function(o){return o.status==='승인';}).length;
+  if(ap)h+='<div class="card"><div class="ct">출고 대기 <small>승인 완료 '+ap+'건</small></div><a class="btn soft blk" href="#ship">출고 지시 만들기</a></div>';
+  if(low.length)h+='<div class="card"><div class="ct">재고 부족 <a href="#stock">재고 관리 ›</a></div>'+low.map(function(it){return '<div class="li"><div class="f">'+nameBlock(it)+'</div><div class="qty low">'+stockOf(S,it.id)+'<small>개</small></div></div>';}).join('')+'</div>';
+  h+='<div class="card"><div class="ct">대리점 전용 링크</div><div class="hint" style="margin:0 0 10px">대리점 사장님께 보내면 주문 화면만 열립니다. 대리점별 링크는 설정에서 복사할 수 있어요.</div><button class="btn soft blk" data-a="copylink">대리점 전용 링크 복사</button></div>';
+  return h;
+}
+function hqOrders(){
+  var os=S.orders.filter(function(o){return (!F.od||o.dealerId===F.od)&&(!F.os||o.status===F.os);}).slice().reverse(),h='<div class="pg">주문</div>';
+  h+='<div class="card"><div class="g2"><label class="fld" style="margin:0"><span>대리점</span><select id="f-od">'+dealerOpts(F.od,'전체 대리점')+'</select></label><label class="fld" style="margin:0"><span>상태</span><select id="f-os"><option value="">전체 상태</option>'+STATUS.map(function(s){return '<option'+(s===F.os?' selected':'')+'>'+s+'</option>';}).join('')+'</select></label></div></div>';
+  h+='<div class="card"><div class="ct">주문 '+os.length+'건 <small>접수 → 승인 → 출고완료</small></div>'+(os.length?os.map(function(o){
+    var b=o.status==='접수'?'<div class="acts"><button class="btn pri sm" data-a="approve" data-id="'+esc(o.id)+'">승인</button><button class="btn danger sm" data-a="cancel" data-id="'+esc(o.id)+'">취소</button></div>':o.status==='승인'?'<div class="acts"><a class="btn soft sm" href="#ship">출고 지시로</a><button class="btn danger sm" data-a="cancel" data-id="'+esc(o.id)+'">취소</button></div>':'';
+    return orderCard(o,b);}).join(''):'<div class="empty">조건에 맞는 주문이 없습니다</div>')+'</div>';
+  return h;
+}
+function hqShip(){
+  var ap=S.orders.filter(function(o){return o.status==='승인';}),h='<div class="pg">출고</div>';
+  h+='<div class="card"><div class="ct">출고 지시 만들기 '+(ap.length?'<button class="btn sm" data-a="selall">전체 선택</button>':'')+'</div>';
+  h+=ap.length?ap.map(function(o){return '<label class="oc sel" data-sel="'+esc(o.id)+'"><div class="oc-h"><div><input type="checkbox" class="shp" value="'+esc(o.id)+'"><span class="no">#'+esc(o.no)+'</span><b>'+esc(o.dealerName)+'</b></div>'+badge(o.status)+'</div>'+lineList(o)+'<div class="oc-f"><span>'+esc(o.date)+'</span><b>'+won(orderTotal(o))+'</b></div></label>';}).join('')+'<button class="btn pri blk" style="margin-top:12px" data-a="ship" id="shipbtn">선택한 주문 출고 지시</button><div class="hint">출고하면 재고가 차감되고 주문이 출고완료로 바뀝니다. 재고가 부족하면 출고가 막힙니다.</div>':'<div class="empty">승인된 주문이 없습니다. 주문 화면에서 먼저 승인해 주세요.</div>';
+  h+='</div><div class="card"><div class="ct">출고 지시 목록 <small>'+S.shipments.length+'건</small></div>'+(S.shipments.length?S.shipments.slice().reverse().map(function(s){return '<div class="oc"><div class="oc-h"><div><span class="no">출고 #'+esc(s.no)+'</span><b>'+esc(s.dealerName)+'</b></div><span class="b b-출고완료">출고완료</span></div>'+lineList(s)+'<div class="oc-f"><span>'+esc(s.date)+'</span><span>주문 #'+esc(s.orderNo)+'</span></div></div>';}).join(''):'<div class="empty">아직 출고 지시가 없습니다</div>')+'</div>';
+  return h;
+}
+function hqSettle(){
+  var r=settlement(S,{dealerId:F.sd,from:F.sf,to:F.stt,state:F.sst}),h='<div class="pg">정산</div>';
+  h+='<div class="card"><div class="g2"><label class="fld"><span>대리점</span><select id="f-sd">'+dealerOpts(F.sd,'전체 대리점')+'</select></label><label class="fld"><span>정산 상태</span><select id="f-sst"><option value="">전체</option><option'+(F.sst==='미정산'?' selected':'')+'>미정산</option><option'+(F.sst==='정산완료'?' selected':'')+'>정산완료</option></select></label></div><div class="g2"><label class="fld" style="margin:0"><span>출고일 시작</span><input type="date" id="f-sf" value="'+esc(F.sf)+'"></label><label class="fld" style="margin:0"><span>출고일 끝</span><input type="date" id="f-stt" value="'+esc(F.stt)+'"></label></div></div>';
+  h+='<div class="kpis">'+kpi('출고 합계',wonKpi(r.total),'hl')+kpi('미정산',wonKpi(r.unpaid),r.unpaid?'warn':'')+'</div>';
   var bd=Object.keys(r.byDealer);
-  if(bd.length)h+='<table><thead><tr><th>대리점</th><th>건수</th><th>합계</th><th>미정산</th></tr></thead><tbody>'+bd.map(function(k){var b=r.byDealer[k];return '<tr><td><b>'+esc(k)+'</b></td><td>'+b.count+'건</td><td>'+won(b.total)+'</td><td>'+won(b.unpaid)+'</td></tr>';}).join('')+'</tbody></table>';
-  h+='<h2 style="margin-top:14px">건별 내역</h2>'+(r.rows.length?'<table><thead><tr><th>출고일</th><th style="text-align:left">대리점·품목</th><th>금액</th><th>정산</th></tr></thead><tbody>'+r.rows.map(function(o){return '<tr><td>'+esc(o.shipDate)+'<span class="nm">주문 #'+esc(o.no)+'</span></td><td style="text-align:left"><b>'+esc(o.dealerName)+'</b>'+lines(o)+'</td><td style="white-space:nowrap">'+won(orderTotal(o))+'</td><td><button class="sm" data-a="settle" data-id="'+esc(o.id)+'" title="눌러서 상태 바꾸기">'+st(o.settled?'정산완료':'미정산')+'</button></td></tr>';}).join('')+'</tbody></table>':'<div class="empty">조건에 맞는 정산 내역이 없습니다.</div>');
-  h+='<small>정산 상태 버튼을 누르면 미정산 ↔ 정산완료로 바뀝니다.</small></div>';
-  // 품목 관리
-  var ed=EDIT?item(S,EDIT):null,fv=ed||{id:'',name:'애플망고',country:'',variety:'',type:'실속',kg:'',count:'',cost:'',price:''};
-  h+='<div class="card" id="items"><h2>🏷️ 품목 관리 <small>(판매가 = 대리점 공급가로 쓰는 값)</small></h2>';
-  h+=S.items.length?'<table><thead><tr><th>품목</th><th class="hm">매입가</th><th>판매가</th><th></th></tr></thead><tbody>'+S.items.map(function(it){return '<tr><td>'+nameCell(it)+'<span class="nm">id: '+esc(it.id)+'</span></td><td class="hm">'+won(it.cost)+'</td><td><b>'+won(it.price)+'</b></td><td style="white-space:nowrap"><button class="sm" data-a="edititem" data-id="'+esc(it.id)+'">수정</button> <button class="sm warn" data-a="delitem" data-id="'+esc(it.id)+'">삭제</button></td></tr>';}).join('')+'</tbody></table>':'<div class="empty">등록된 품목이 없습니다.</div>';
-  h+='<h2 style="margin-top:14px">'+(ed?'품목 수정 <small>(id: '+esc(ed.id)+')</small>':'새 품목 추가')+'</h2>';
-  h+='<div class="row"><label>상품명<input id="it-name" value="'+esc(fv.name)+'" placeholder="애플망고"></label><label>나라<input id="it-country" value="'+esc(fv.country)+'" placeholder="페루"></label><label>품종<input id="it-variety" value="'+esc(fv.variety)+'" placeholder="켄트"></label></div>';
-  h+='<div class="row"><label>구분<select id="it-type"><option'+(fv.type==='실속'?' selected':'')+'>실속</option><option'+(fv.type==='선물'?' selected':'')+'>선물</option></select></label><label>과수<input id="it-count" type="number" inputmode="numeric" min="1" value="'+esc(fv.count)+'"></label><label>중량 (kg)<input id="it-kg" type="number" inputmode="decimal" step="0.01" min="0" value="'+esc(fv.kg)+'"></label></div>';
-  h+='<div class="row"><label>매입가 (원, 과일 원가)<input id="it-cost" type="number" inputmode="numeric" min="0" value="'+esc(fv.cost)+'"></label><label>판매가 (원, 공급가)<input id="it-price" type="number" inputmode="numeric" min="0" step="100" value="'+esc(fv.price)+'"></label>'+(ed?'':'<label>id (비우면 자동)<input id="it-id" placeholder="peru-kent-sil4"></label>')+'</div>';
-  h+='<div class="btns"><button class="pri" data-a="saveitem">'+(ed?'수정 저장':'품목 추가')+'</button>'+(ed?'<button data-a="canceledit">수정 취소</button>':'')+'</div>';
-  h+='<div class="btns" style="margin-top:10px"><button data-a="calcitems">계산기 품목 불러오기</button><button data-a="itemsexport">품목 JSON 내보내기</button><button data-a="itemsimport">품목 JSON 가져오기</button></div><input type="file" id="itemsfile" accept=".json,application/json" class="hide">';
-  h+='<small>품목 파일 형식: fruit-items/1 (계산기와 공통). 불러오기·가져오기는 id 기준으로 병합합니다(같은 id는 갱신, 새 id는 추가, 재고는 유지). 단가를 바꿔도 이미 들어온 주문 금액은 그대로입니다.</small></div>';
-  // 대리점 관리
-  h+='<div class="card"><h2>🏪 대리점 관리</h2><table><tbody>'+S.dealers.map(function(d){var n=S.orders.filter(function(o){return o.dealerId===d.id;}).length;return '<tr><td><b>'+esc(d.name)+'</b><span class="nm">주문 '+n+'건</span></td><td><button class="sm warn" data-a="deldealer" data-id="'+esc(d.id)+'">삭제</button></td></tr>';}).join('')+'</tbody></table><div class="row" style="margin-top:8px"><label>새 대리점 이름<input id="newdealer" maxlength="30" placeholder="예: 일산점"></label><button class="pri" data-a="adddealer">추가</button></div><small>삭제해도 기존 주문·정산 기록은 남습니다.</small></div>';
-  // 데이터
-  h+='<div class="card"><h2>🗂️ 데이터 관리</h2><div class="btns"><button data-a="export">JSON 내보내기</button><button data-a="import">JSON 가져오기</button><button class="warn" data-a="reset">데이터 초기화 (예시로 되돌리기)</button></div><input type="file" id="file" accept=".json,application/json" class="hide"><small>데이터는 이 브라우저 localStorage에만 저장됩니다. 다른 기기로 옮기려면 내보내기 → 가져오기를 쓰세요.</small></div>';
-  $('hq').innerHTML=h;
+  if(bd.length)h+='<div class="card"><div class="ct">대리점별 합계</div>'+bd.map(function(k){var b=r.byDealer[k];return '<div class="li"><div class="f"><b>'+esc(k)+'</b><div class="hint" style="margin:0">'+b.count+'건 · 미정산 '+won(b.unpaid)+'</div></div><div class="price">'+won(b.total)+'</div></div>';}).join('')+'</div>';
+  h+='<div class="card"><div class="ct">건별 내역 <small>출고완료 기준</small></div>'+(r.rows.length?r.rows.slice().reverse().map(function(o){return orderCard(o,'<div class="acts"><button class="btn sm '+(o.settled?'':'pri')+'" data-a="settle" data-id="'+esc(o.id)+'">'+(o.settled?'미정산으로 되돌리기':'정산완료로 표시')+'</button></div>',{settle:true});}).join(''):'<div class="empty">조건에 맞는 정산 내역이 없습니다</div>')+'</div>';
+  return h;
+}
+function invSeg(p){return '<div class="seg"><a href="#stock" class="'+(p==='stock'?'on':'')+'">재고</a><a href="#items" class="'+(p==='items'?'on':'')+'">품목 관리</a></div>';}
+function hqStock(){
+  var h='<div class="pg">품목·재고 '+(S.sample?'<span class="ex">예시 데이터</span>':'')+'</div>'+invSeg('stock');
+  h+='<div class="card"><div class="ct">재고 현황 <small>5개 미만은 빨간색</small></div>'+(S.items.length?S.items.map(function(it){var q=stockOf(S,it.id);return '<div class="li" style="display:block"><div style="display:flex;align-items:center;gap:10px"><div class="f" style="flex:1">'+nameBlock(it)+'</div><div class="qty'+(q<5?' low':'')+'">'+q+'<small>개</small></div></div><div class="stk"><input type="number" inputmode="numeric" min="0" id="q-'+esc(it.id)+'" placeholder="수량"><button class="btn sm soft" data-a="in" data-id="'+esc(it.id)+'">입고 +</button><button class="btn sm" data-a="adj" data-id="'+esc(it.id)+'">조정</button></div></div>';}).join(''):'<div class="empty">등록된 품목이 없습니다</div>')+'<div class="hint">입고 +: 입력한 수량만큼 더합니다 · 조정: 실제 재고 수량으로 바꿉니다 · 출고하면 자동 차감됩니다</div></div>';
+  return h;
+}
+function hqItems(){
+  var ed=EDIT?item(S,EDIT):null,fv=ed||{name:'애플망고',country:'',variety:'',type:'실속',kg:'',count:'',cost:'',price:''},h='<div class="pg">품목·재고</div>'+invSeg('items');
+  h+='<div class="card"><div class="ct">등록 품목 <small>판매가 = 대리점 공급가</small></div>'+(S.items.length?S.items.map(function(it){return '<div class="li"><div class="f">'+nameBlock(it,true)+'<div class="hint" style="margin:2px 0 0">매입 '+won(it.cost)+' · 판매 <b style="color:var(--tx)">'+won(it.price)+'</b></div></div><div style="display:flex;flex-direction:column;gap:6px"><button class="btn sm" data-a="edititem" data-id="'+esc(it.id)+'">수정</button><button class="btn sm danger" data-a="delitem" data-id="'+esc(it.id)+'">삭제</button></div></div>';}).join(''):'<div class="empty">등록된 품목이 없습니다</div>')+'</div>';
+  h+='<div class="card" id="itemform"><div class="ct">'+(ed?'품목 수정 <small>id: '+esc(ed.id)+'</small>':'새 품목 추가')+'</div>';
+  h+='<label class="fld"><span>상품명</span><input id="it-name" value="'+esc(fv.name)+'" placeholder="애플망고"></label><div class="g2"><label class="fld"><span>나라</span><input id="it-country" value="'+esc(fv.country)+'" placeholder="페루"></label><label class="fld"><span>품종</span><input id="it-variety" value="'+esc(fv.variety)+'" placeholder="켄트"></label></div>';
+  h+='<div class="g3"><label class="fld"><span>구분</span><select id="it-type"><option'+(fv.type==='실속'?' selected':'')+'>실속</option><option'+(fv.type==='선물'?' selected':'')+'>선물</option></select></label><label class="fld"><span>과수</span><input id="it-count" type="number" inputmode="numeric" min="1" value="'+esc(fv.count)+'"></label><label class="fld"><span>중량(kg)</span><input id="it-kg" type="number" inputmode="decimal" step="0.01" min="0" value="'+esc(fv.kg)+'"></label></div>';
+  h+='<div class="g2"><label class="fld"><span>매입가(원)</span><input id="it-cost" type="number" inputmode="numeric" min="0" value="'+esc(fv.cost)+'"></label><label class="fld"><span>판매가·공급가(원)</span><input id="it-price" type="number" inputmode="numeric" min="0" step="100" value="'+esc(fv.price)+'"></label></div>'+(ed?'':'<label class="fld"><span>품목 id (비우면 자동)</span><input id="it-id" placeholder="예: peru-kent-sil4"></label>');
+  h+='<div class="btns"><button class="btn pri" data-a="saveitem">'+(ed?'수정 저장':'품목 추가')+'</button>'+(ed?'<button class="btn" data-a="canceledit">취소</button>':'')+'</div></div>';
+  h+='<div class="card"><div class="ct">품목 불러오기·내보내기</div><button class="btn soft blk" data-a="calcitems">계산기 품목 불러오기</button><div class="btns" style="margin-top:8px"><button class="btn" data-a="itemsexport">품목 JSON 내보내기</button><button class="btn" data-a="itemsimport">품목 JSON 가져오기</button></div><input type="file" id="itemsfile" accept=".json,application/json" class="hide"><div class="hint">공통 형식 fruit-items/1. id 기준으로 병합합니다(같은 id는 갱신, 새 id는 추가, 재고는 유지). 단가를 바꿔도 이미 들어온 주문 금액은 그대로입니다.</div></div>';
+  return h;
+}
+function hqSettings(){
+  var h='<div class="pg">설정</div>';
+  h+='<div class="card"><div class="ct">대리점 관리 <small>'+S.dealers.length+'곳</small></div>'+S.dealers.map(function(d){var n=S.orders.filter(function(o){return o.dealerId===d.id;}).length;return '<div class="li"><div class="f"><b>'+esc(d.name)+'</b><div class="hint" style="margin:0">주문 '+n+'건</div></div><button class="btn sm soft" data-a="copylink" data-id="'+esc(d.id)+'">링크 복사</button><button class="btn sm danger" data-a="deldealer" data-id="'+esc(d.id)+'">삭제</button></div>';}).join('')+'<div style="display:flex;gap:8px;margin-top:12px"><input id="newdealer" maxlength="30" placeholder="새 대리점 이름 (예: 일산점)"><button class="btn pri" data-a="adddealer" style="flex:none">추가</button></div><div class="hint">링크 복사: 그 대리점이 미리 선택된 주문 전용 링크입니다. 삭제해도 기존 주문·정산 기록은 남습니다.</div></div>';
+  h+='<div class="card"><div class="ct">데이터 관리</div><div class="btns"><button class="btn" data-a="export">전체 JSON 내보내기</button><button class="btn" data-a="import">전체 JSON 가져오기</button></div><button class="btn danger blk" style="margin-top:8px" data-a="reset">데이터 초기화 (예시로 되돌리기)</button><input type="file" id="file" accept=".json,application/json" class="hide"><div class="hint">데이터는 이 브라우저에만 저장됩니다. 다른 기기로 옮기려면 내보내기 → 가져오기를 쓰세요.</div></div>';
+  return h;
+}
+function renderHQ(){
+  var p=page(),nav=p==='items'?'stock':p;
+  $('brand').innerHTML='🥭 과일 <em>본부</em> 관리';$('brandsub').textContent=today();
+  $('app').innerHTML=({home:hqHome,orders:hqOrders,ship:hqShip,settle:hqSettle,stock:hqStock,items:hqItems,settings:hqSettings})[p]()+foot();
+  $('bar').className='nav';$('bar').innerHTML='<div class="in">'+HQ_TABS.map(function(t){return '<a href="#'+t[0]+'" class="'+(t[0]===nav?'on':'')+'"><i>'+t[2]+'</i>'+t[1]+'</a>';}).join('')+'</div>';
 }
 
+// ---------- 대리점 ----------
 function renderDealer(){
   if(!dealer(S,me))me=S.dealers.length?S.dealers[0].id:'';
-  var d=dealer(S,me),h='';
-  h+='<div class="card"><label>나는 어느 대리점인가요?<select id="me" class="full" style="font-size:17px;padding:10px;margin-top:4px">'+dealerOpts(me)+'</select></label></div>';
-  if(!d){$('dealer').innerHTML=h+'<div class="card empty">등록된 대리점이 없습니다. 본부 화면에서 대리점을 추가해 주세요.</div>';return;}
-  h+='<div class="card"><h2>🛒 주문 넣기 <small>('+esc(d.name)+')</small></h2><table><thead><tr><th>품목 · 단가(공급가)</th><th style="display:none"></th><th>수량</th></tr></thead><tbody>'+S.items.map(function(it){return '<tr><td style="font-size:13px">'+esc(itemLabel(it))+' · <b>'+won(it.price)+'</b></td><td style="display:none"></td><td><input class="n oq" type="number" inputmode="numeric" min="0" data-id="'+esc(it.id)+'" placeholder="0"></td></tr>';}).join('')+'</tbody></table><div class="sum">주문 금액 <b id="ototal">0원</b></div><button class="pri full" style="font-size:16px;padding:12px" data-a="order">주문하기</button></div>';
-  var mine=S.orders.filter(function(o){return o.dealerId===me;}).slice().reverse();
-  h+='<div class="card"><h2>📋 내 주문 상태</h2>'+(mine.length?'<table><thead><tr><th>번호·날짜</th><th style="text-align:left">품목</th><th>금액</th><th>상태</th></tr></thead><tbody>'+mine.map(function(o){return '<tr><td>#'+esc(o.no)+'<span class="nm">'+esc(o.date)+'</span></td><td style="text-align:left">'+lines(o)+'</td><td style="white-space:nowrap">'+won(orderTotal(o))+'</td><td>'+st(o.status)+(o.status==='접수'?'<br><button class="sm warn" data-a="dcancel" data-id="'+esc(o.id)+'">주문 취소</button>':'')+'</td></tr>';}).join('')+'</tbody></table>':'<div class="empty">아직 주문이 없습니다.</div>')+'<small>접수 상태일 때만 취소할 수 있습니다. 승인 후에는 본부에 문의해 주세요.</small></div>';
-  var r=settlement(S,{dealerId:me});
-  h+='<div class="card"><h2>💰 내 정산 내역</h2><div class="sum">출고 합계 <b>'+won(r.total)+'</b> · 미정산 <span class="low">'+won(r.unpaid)+'</span></div>'+(r.rows.length?'<table><thead><tr><th>출고일</th><th style="text-align:left">품목</th><th>금액</th><th>정산</th></tr></thead><tbody>'+r.rows.map(function(o){return '<tr><td>'+esc(o.shipDate)+'<span class="nm">출고 #'+esc(o.shipNo)+'</span></td><td style="text-align:left">'+lines(o)+'</td><td style="white-space:nowrap">'+won(orderTotal(o))+'</td><td>'+st(o.settled?'정산완료':'미정산')+'</td></tr>';}).join('')+'</tbody></table>':'<div class="empty">출고된 주문이 없습니다.</div>')+'</div>';
-  $('dealer').innerHTML=h;
+  var d=dealer(S,me),p=page(),h='';
+  $('brand').innerHTML='🥭 <em>대리점</em> 주문';$('brandsub').textContent=d?d.name:'';
+  h+='<label class="fld"><span>대리점 선택</span><select id="me">'+dealerOpts(me)+'</select></label>';
+  if(!d){$('app').innerHTML=h+'<div class="card empty">등록된 대리점이 없습니다. 본부에 문의해 주세요.</div>'+foot();$('bar').className='hide';$('bar').innerHTML='';return;}
+  var mine=S.orders.filter(function(o){return o.dealerId===me;}),r=settlement(S,{dealerId:me}),mon=today().slice(0,7);
+  var monAmt=r.rows.filter(function(o){return String(o.shipDate).slice(0,7)===mon;}).reduce(function(s,o){return s+orderTotal(o);},0);
+  h+='<div class="kpis" style="grid-template-columns:1fr 1fr 1fr">'+kpi('진행 중 주문',mine.filter(function(o){return o.status==='접수'||o.status==='승인';}).length+'<small>건</small>','hl')+kpi('이번 달 출고',wonKpi(monAmt))+kpi('미정산',wonKpi(r.unpaid),r.unpaid?'warn':'')+'</div>';
+  h+='<div class="seg"><a href="#order" class="'+(p==='order'?'on':'')+'">주문하기</a><a href="#mine" class="'+(p==='mine'?'on':'')+'">내 주문</a><a href="#settle" class="'+(p==='settle'?'on':'')+'">정산 내역</a></div>';
+  if(p==='order'){
+    h+=S.items.length?S.items.map(function(it){var q=CART[it.id]||0;return '<div class="ic'+(q?' on':'')+'" data-ic="'+esc(it.id)+'"><div class="f">'+nameBlock(it)+'<div class="p">'+won(it.price)+'</div></div><div class="stp"><button type="button" data-step="-1" data-id="'+esc(it.id)+'" aria-label="빼기">−</button><input class="oq" type="number" inputmode="numeric" min="0" data-id="'+esc(it.id)+'" value="'+q+'"><button type="button" data-step="1" data-id="'+esc(it.id)+'" aria-label="더하기">+</button></div></div>';}).join(''):'<div class="card empty">주문 가능한 품목이 없습니다</div>';
+    $('bar').className='obar';$('bar').innerHTML='<div class="in"><div class="t"><small id="ocount">선택 0개</small><b id="ototal">0원</b></div><button class="btn pri" data-a="order" id="orderbtn">주문하기</button></div>';
+  }else{
+    $('bar').className='hide';$('bar').innerHTML='';
+    if(p==='mine')h+='<div class="card"><div class="ct">내 주문 <small>접수 상태일 때만 취소 가능</small></div>'+(mine.length?mine.slice().reverse().map(function(o){return orderCard(o,o.status==='접수'?'<div class="acts"><button class="btn danger sm" data-a="dcancel" data-id="'+esc(o.id)+'">주문 취소</button></div>':'',{noDealer:true});}).join(''):'<div class="empty">아직 주문이 없습니다</div>')+'</div>';
+    else h+='<div class="card"><div class="sumrow"><span>출고 합계</span><b>'+won(r.total)+'</b></div><div class="sumrow"><span>미정산</span><b style="color:#c62828">'+won(r.unpaid)+'</b></div></div><div class="card"><div class="ct">출고 내역</div>'+(r.rows.length?r.rows.slice().reverse().map(function(o){return orderCard(o,'',{noDealer:true,settle:true});}).join(''):'<div class="empty">출고된 주문이 없습니다</div>')+'</div>';
+  }
+  $('app').innerHTML=h+foot();
+  calcTotal();
 }
-function calcTotal(){var t=0;document.querySelectorAll('.oq').forEach(function(i){var it=item(S,i.dataset.id);t+=Math.max(0,Math.floor(+i.value||0))*it.price;});if($('ototal'))$('ototal').textContent=won(t);}
-function render(){
-  $('hq').classList.toggle('hide',view!=='hq');$('dealer').classList.toggle('hide',view!=='dealer');
-  $('tab-hq').classList.toggle('on',view==='hq');$('tab-dealer').classList.toggle('on',view==='dealer');
-  if(view==='hq')renderHQ();else renderDealer();
-}
+function calcTotal(){var t=0,c=0;S.items.forEach(function(it){var q=CART[it.id]||0;t+=q*it.price;c+=q;});
+  if($('ototal')){$('ototal').textContent=won(t);$('ocount').textContent='선택 '+c+'개';$('orderbtn').disabled=!c;}}
+function setQty(id,q){q=Math.max(0,Math.min(9999,Math.floor(+q||0)));if(q)CART[id]=q;else delete CART[id];
+  var box=document.querySelector('[data-ic="'+id+'"]');if(box){box.classList.toggle('on',!!q);var inp=box.querySelector('.oq');if(inp&&String(inp.value)!==String(q))inp.value=q;}calcTotal();}
+function render(){if(view==='hq')renderHQ();else renderDealer();}
+
 document.addEventListener('click',function(e){
-  var tb=e.target.closest('.tabs button');
-  if(tb){view=tb.dataset.view;var u=new URL(location.href);if(view==='dealer')u.searchParams.set('view','dealer');else u.searchParams.delete('view');u.searchParams.delete('dealer');history.replaceState(null,'',u);render();return;}
+  var stp=e.target.closest('[data-step]');if(stp&&view==='dealer'){setQty(stp.dataset.id,(CART[stp.dataset.id]||0)+(+stp.dataset.step));return;}
   var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a,id=b.dataset.id;
-  if(a==='in')act(function(){receiveStock(S,id,$('q-'+id).value);},'입고했습니다.');
-  else if(a==='adj')act(function(){var v=$('q-'+id).value;if(v==='')throw new Error('조정할 재고 수량을 입력해 주세요.');setStock(S,id,v);},'재고를 조정했습니다.');
-  else if(a==='approve')act(function(){approveOrder(S,id);},'주문을 승인했습니다.');
-  else if(a==='cancel'){if(confirm('이 주문을 취소할까요?'))act(function(){cancelOrder(S,id,false);},'주문을 취소했습니다.');}
-  else if(a==='dcancel'){if(confirm('이 주문을 취소할까요?'))act(function(){cancelOrder(S,id,true);},'주문을 취소했습니다.');}
-  else if(a==='ship'){var ids=[].map.call(document.querySelectorAll('.shp:checked'),function(c){return c.value;});act(function(){var m=createShipment(S,ids);return '출고 지시 '+m.length+'건을 만들었습니다. 재고가 차감됐습니다.';});}
-  else if(a==='settle')act(function(){toggleSettled(S,id);},'정산 상태를 바꿨습니다.');
-  else if(a==='edititem'){EDIT=id;render();var c=$('it-name');if(c)c.scrollIntoView({block:'center'});}
+  if(view!=='hq'&&HQ_ACTIONS.indexOf(a)>=0)return;
+  if(view==='hq'&&(a==='order'||a==='dcancel'))return;
+  if(a==='in')act(function(){receiveStock(S,id,$('q-'+id).value);},'입고했습니다');
+  else if(a==='adj')act(function(){var v=$('q-'+id).value;if(v==='')throw new Error('조정할 재고 수량을 입력해 주세요.');setStock(S,id,v);},'재고를 조정했습니다');
+  else if(a==='approve')act(function(){approveOrder(S,id);},'주문을 승인했습니다');
+  else if(a==='cancel'){if(confirm('이 주문을 취소할까요?'))act(function(){cancelOrder(S,id,false);},'주문을 취소했습니다');}
+  else if(a==='selall'){var cs=document.querySelectorAll('.shp'),all=[].every.call(cs,function(c){return c.checked;});cs.forEach(function(c){c.checked=!all;c.closest('.oc').classList.toggle('on',!all);});}
+  else if(a==='ship'){var ids=[].map.call(document.querySelectorAll('.shp:checked'),function(c){return c.value;});act(function(){var m=createShipment(S,ids);return '출고 지시 '+m.length+'건을 만들었습니다. 재고가 차감됐어요';});}
+  else if(a==='settle')act(function(){toggleSettled(S,id);},'정산 상태를 바꿨습니다');
+  else if(a==='edititem'){EDIT=id;if(location.hash!=='#items')location.hash='items';else render();setTimeout(function(){var f=$('itemform');if(f)f.scrollIntoView({block:'start'});},0);}
   else if(a==='canceledit'){EDIT='';render();}
-  else if(a==='saveitem')act(function(){var x={id:EDIT||(($('it-id')&&$('it-id').value.trim())||('item-'+Date.now().toString(36))),name:$('it-name').value,country:$('it-country').value,variety:$('it-variety').value,type:$('it-type').value,kg:$('it-kg').value===''?NaN:$('it-kg').value,count:$('it-count').value===''?NaN:$('it-count').value,cost:$('it-cost').value===''?NaN:$('it-cost').value,price:$('it-price').value===''?NaN:$('it-price').value};
-    var was=!!EDIT;upsertItem(S,x,!was);EDIT='';return was?'품목을 수정했습니다.':'품목을 추가했습니다. (재고 0개)';});
-  else if(a==='delitem'){var di=item(S,id),n=itemOrderCount(S,id);if(di&&confirm(n?('이 품목이 들어간 주문이 '+n+'건 있습니다. 삭제할까요?\n기존 주문에는 주문 당시 품목명과 단가가 저장돼 있어 그대로 남고, 이 품목의 재고 기록은 지워집니다.'):(itemLabel(di)+' 품목을 삭제할까요?')))act(function(){removeItem(S,id);if(EDIT===id)EDIT='';},'품목을 삭제했습니다.');}
-  else if(a==='calcitems'){fetch(CALC_ITEMS_URL+'?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('nf');return r.json();}).then(function(f){act(function(){var m=mergeItems(S,f);return '계산기 품목을 불러왔습니다. (추가 '+m.added+'개, 갱신 '+m.updated+'개)';});},function(){toast('계산기 품목 파일을 찾지 못했습니다');});}
-  else if(a==='itemsexport'){var bl2=new Blob([JSON.stringify(itemsFile(S),null,2)],{type:'application/json'});var l2=document.createElement('a');l2.href=URL.createObjectURL(bl2);l2.download='items.json';document.body.appendChild(l2);l2.click();l2.remove();toast('품목 JSON(fruit-items/1)으로 내보냈습니다.');}
+  else if(a==='saveitem')act(function(){var num=function(k){var v=$('it-'+k).value;return v===''?NaN:v;};var x={id:EDIT||(($('it-id')&&$('it-id').value.trim())||('item-'+Date.now().toString(36))),name:$('it-name').value,country:$('it-country').value,variety:$('it-variety').value,type:$('it-type').value,kg:num('kg'),count:num('count'),cost:num('cost'),price:num('price')};
+    var was=!!EDIT;upsertItem(S,x,!was);EDIT='';return was?'품목을 수정했습니다':'품목을 추가했습니다 (재고 0개)';});
+  else if(a==='delitem'){var di=item(S,id),n=itemOrderCount(S,id);if(di&&confirm(n?('이 품목이 들어간 주문이 '+n+'건 있습니다. 삭제할까요?\n기존 주문에는 주문 당시 품목명과 단가가 저장돼 있어 그대로 남고, 이 품목의 재고 기록은 지워집니다.'):(itemLabel(di)+' 품목을 삭제할까요?')))act(function(){removeItem(S,id);if(EDIT===id)EDIT='';},'품목을 삭제했습니다');}
+  else if(a==='calcitems'){fetch(CALC_ITEMS_URL+'?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('nf');return r.json();}).then(function(f){act(function(){var m=mergeItems(S,f);return '계산기 품목을 불러왔습니다 (추가 '+m.added+'개, 갱신 '+m.updated+'개)';});},function(){toast('계산기 품목 파일을 찾지 못했습니다');});}
+  else if(a==='itemsexport')download(itemsFile(S),'items.json','품목 JSON(fruit-items/1)으로 내보냈습니다');
   else if(a==='itemsimport')$('itemsfile').click();
-  else if(a==='adddealer')act(function(){addDealer(S,$('newdealer').value);},'대리점을 추가했습니다.');
-  else if(a==='deldealer'){var dd=dealer(S,id);if(dd&&confirm(dd.name+'을(를) 삭제할까요? 기존 주문 기록은 남습니다.'))act(function(){removeDealer(S,id);},'대리점을 삭제했습니다.');}
-  else if(a==='order')act(function(){var q={};document.querySelectorAll('.oq').forEach(function(i){q[i.dataset.id]=i.value;});var o=placeOrder(S,me,q);return '주문 #'+o.no+'이 접수됐습니다.';});
-  else if(a==='export'){var bl=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});var l=document.createElement('a');l.href=URL.createObjectURL(bl);l.download='fruit-hq-test-'+today()+'.json';document.body.appendChild(l);l.click();l.remove();toast('JSON 파일로 내보냈습니다.');}
+  else if(a==='adddealer')act(function(){addDealer(S,$('newdealer').value);},'대리점을 추가했습니다');
+  else if(a==='deldealer'){var dd=dealer(S,id);if(dd&&confirm(dd.name+'을(를) 삭제할까요? 기존 주문 기록은 남습니다.'))act(function(){removeDealer(S,id);},'대리점을 삭제했습니다');}
+  else if(a==='copylink')copyLink(dealerLink(id));
+  else if(a==='export')download(S,'fruit-hq-test-'+today()+'.json','전체 데이터를 JSON 파일로 내보냈습니다');
   else if(a==='import')$('file').click();
-  else if(a==='reset'){if(confirm('모든 데이터를 지우고 예시 데이터로 되돌릴까요?')){S=sample();save(localStorage,S);render();toast('예시 데이터로 되돌렸습니다.');}}
+  else if(a==='reset'){if(confirm('모든 데이터를 지우고 예시 데이터로 되돌릴까요?')){S=sample();save(localStorage,S);render();toast('예시 데이터로 되돌렸습니다');}}
+  else if(a==='order')act(function(){var o=placeOrder(S,me,CART);CART={};return '주문 #'+o.no+'이 접수됐습니다';});
+  else if(a==='dcancel'){if(confirm('이 주문을 취소할까요?'))act(function(){cancelOrder(S,id,true);},'주문을 취소했습니다');}
 });
+function download(obj,name,msg){var bl=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});var l=document.createElement('a');l.href=URL.createObjectURL(bl);l.download=name;document.body.appendChild(l);l.click();l.remove();toast(msg);}
 document.addEventListener('change',function(e){
   var t=e.target;
-  if(t.id==='me'){me=t.value;localStorage.setItem(KEY+'.me',me);render();}
+  if(t.id==='me'&&view==='dealer'){me=t.value;CART={};localStorage.setItem(KEY+'.me',me);var u=new URL(location.href);u.searchParams.set('d',me);u.searchParams.delete('dealer');history.replaceState(null,'',u);render();}
+  else if(t.classList.contains('shp')){t.closest('.oc').classList.toggle('on',t.checked);}
+  else if(t.classList.contains('oq')){setQty(t.dataset.id,t.value);}
+  else if(view!=='hq')return;
   else if(t.id&&t.id.indexOf('f-')===0){F[t.id.slice(2)]=t.value;render();}
-  else if(t.id==='itemsfile'&&t.files[0]){var r2=new FileReader();r2.onload=function(){var x;try{x=JSON.parse(r2.result);}catch(er){toast('⚠️ JSON 파일을 읽지 못했습니다.');return;}act(function(){var m=mergeItems(S,x);return '품목을 가져왔습니다. (추가 '+m.added+'개, 갱신 '+m.updated+'개)';});};r2.readAsText(t.files[0]);t.value='';}
-  else if(t.id==='file'&&t.files[0]){var rd=new FileReader();rd.onload=function(){try{var x=JSON.parse(rd.result);if(!validState(x)&&x&&x.v===1)x=migrateV1(x);if(!validState(x))throw 0;S=x;save(localStorage,S);render();toast('데이터를 가져왔습니다.');}catch(er){toast('⚠️ 올바른 데이터 파일이 아닙니다.');}};rd.readAsText(t.files[0]);t.value='';}
+  else if(t.id==='itemsfile'&&t.files[0]){var r2=new FileReader();r2.onload=function(){var x;try{x=JSON.parse(r2.result);}catch(er){toast('⚠️ JSON 파일을 읽지 못했습니다');return;}act(function(){var m=mergeItems(S,x);return '품목을 가져왔습니다 (추가 '+m.added+'개, 갱신 '+m.updated+'개)';});};r2.readAsText(t.files[0]);t.value='';}
+  else if(t.id==='file'&&t.files[0]){var rd=new FileReader();rd.onload=function(){try{var x=JSON.parse(rd.result);if(!validState(x)&&x&&x.v===1)x=migrateV1(x);if(!validState(x))throw 0;S=x;save(localStorage,S);render();toast('데이터를 가져왔습니다');}catch(er){toast('⚠️ 올바른 데이터 파일이 아닙니다');}};rd.readAsText(t.files[0]);t.value='';}
 });
-document.addEventListener('input',function(e){if(e.target.classList.contains('oq'))calcTotal();});
+document.addEventListener('input',function(e){if(e.target.classList.contains('oq')&&e.target.value!=='')setQty(e.target.dataset.id,e.target.value);});
+window.addEventListener('hashchange',function(){if(page()!=='items')EDIT='';render();window.scrollTo(0,0);});
+window.addEventListener('storage',function(e){if(e.key===KEY){S=load(localStorage);render();}});
+if(view==='dealer')document.title='대리점 주문';
 render();
-if(location.hash){var tg=document.querySelector(location.hash);if(tg)tg.scrollIntoView();}
-</script></body></html>
+</script>
+</body></html>
