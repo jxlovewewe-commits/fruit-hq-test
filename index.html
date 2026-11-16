@@ -21,6 +21,7 @@ body{margin:0;background:var(--bg);color:var(--tx);font-family:Pretendard,-apple
 .kpi .v small{font-size:13px;font-weight:600;margin-left:1px}
 .kpi.hl{background:linear-gradient(135deg,#ffb04a,#f08a24);color:#fff}.kpi.hl .l{color:#fff;opacity:.9}
 .kpi.warn .v{color:#c62828}
+.kpis.k3{grid-template-columns:1fr 1fr 1fr;gap:8px}.k3 .kpi{padding:12px 10px}.k3 .kpi .v{font-size:16px;white-space:nowrap;letter-spacing:-.5px}.k3 .kpi .v small{font-size:12px}
 .b{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
 .b-접수{background:#eef0f3;color:#4b5563}.b-승인{background:#e7efff;color:#1d4ed8}.b-출고완료{background:#e4f5ea;color:#15803d}.b-취소{background:#fdecec;color:#c62828}
 .b-미정산{background:var(--ol);color:#c2570c}.b-정산완료{background:#e4f5ea;color:#15803d}
@@ -309,7 +310,7 @@ function renderDealer(){
   if(!d){$('app').innerHTML=h+'<div class="card empty">등록된 대리점이 없습니다. 본부에 문의해 주세요.</div>'+foot();$('bar').className='hide';$('bar').innerHTML='';return;}
   var mine=S.orders.filter(function(o){return o.dealerId===me;}),r=settlement(S,{dealerId:me}),mon=today().slice(0,7);
   var monAmt=r.rows.filter(function(o){return String(o.shipDate).slice(0,7)===mon;}).reduce(function(s,o){return s+orderTotal(o);},0);
-  h+='<div class="kpis" style="grid-template-columns:1fr 1fr 1fr">'+kpi('진행 중 주문',mine.filter(function(o){return o.status==='접수'||o.status==='승인';}).length+'<small>건</small>','hl')+kpi('이번 달 출고',wonKpi(monAmt))+kpi('미정산',wonKpi(r.unpaid),r.unpaid?'warn':'')+'</div>';
+  h+='<div class="kpis k3">'+kpi('진행 중 주문',mine.filter(function(o){return o.status==='접수'||o.status==='승인';}).length+'<small>건</small>','hl')+kpi('이번 달 출고',wonKpi(monAmt))+kpi('미정산',wonKpi(r.unpaid),r.unpaid?'warn':'')+'</div>';
   h+='<div class="seg"><a href="#order" class="'+(p==='order'?'on':'')+'">주문하기</a><a href="#mine" class="'+(p==='mine'?'on':'')+'">내 주문</a><a href="#settle" class="'+(p==='settle'?'on':'')+'">정산 내역</a></div>';
   if(p==='order'){
     h+=S.items.length?S.items.map(function(it){var q=CART[it.id]||0;return '<div class="ic'+(q?' on':'')+'" data-ic="'+esc(it.id)+'"><div class="f">'+nameBlock(it)+'<div class="p">'+won(it.price)+'</div></div><div class="stp"><button type="button" data-step="-1" data-id="'+esc(it.id)+'" aria-label="빼기">−</button><input class="oq" type="number" inputmode="numeric" min="0" data-id="'+esc(it.id)+'" value="'+q+'"><button type="button" data-step="1" data-id="'+esc(it.id)+'" aria-label="더하기">+</button></div></div>';}).join(''):'<div class="card empty">주문 가능한 품목이 없습니다</div>';
